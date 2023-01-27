@@ -16,13 +16,13 @@ public class SessionUtils {
 
 	public static String getUserName() {
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-		return session.getAttribute("username").toString();
+		return session.getAttribute("usuario").toString();
 	}
 
 	public static String getUserId() {
 		HttpSession session = getSession();
 		if (session != null)
-			return (String) session.getAttribute("userid");
+			return (String) session.getAttribute("usserid");
 		else
 			return null;
 	}

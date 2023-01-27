@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import service.LoginService;
 import utils.SessionUtils;
 
-@ManagedBean
+@ManagedBean(name = "login")
 @SessionScoped
 public class LoginBacking implements Serializable {
 
@@ -21,16 +21,16 @@ public class LoginBacking implements Serializable {
 	@Inject
 	private LoginService loginService;
 
-	private String pwd;
+	private String senha;
 	private String msg;
-	private String user;
+	private String usuario;
 
-	public String getPwd() {
-		return pwd;
+	public String getSenha() {
+		return senha;
 	}
 
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public String getMsg() {
@@ -41,24 +41,23 @@ public class LoginBacking implements Serializable {
 		this.msg = msg;
 	}
 
-	public String getUser() {
-		return user;
+	public String getUsuario() {
+		return usuario;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
-	// validate login
-	public String validateUsernamePassword() {
-		boolean valid = loginService.validate(user, pwd);
+	public String validar() {
+		boolean valid = loginService.validate(usuario, senha);
 		if (valid) {
 			HttpSession session = SessionUtils.getSession();
-			session.setAttribute("username", user);
-			return "admin";
+			session.setAttribute("usuario", usuario);
+			return "secure/home";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-					"Incorrect Username and Passowrd", "Please enter correct username and Password"));
+					"Usuário ou senha incorretos.", "Por favor, confira os dados."));
 			return "login";
 		}
 	}
