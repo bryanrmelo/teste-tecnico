@@ -16,36 +16,31 @@ import javax.servlet.http.HttpSession;
 @WebFilter(filterName = "AuthFilter", urlPatterns = { "*.xhtml" })
 public class AuthorizationFilter implements Filter {
 
-	public AuthorizationFilter() {
-	}
-
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
+	public void destroy() {
+		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		try {
+		String user = "";
+		HttpSession sess = ((HttpServletRequest) request).getSession(false);
 
-			HttpServletRequest reqt = (HttpServletRequest) request;
-			HttpServletResponse resp = (HttpServletResponse) response;
-			HttpSession ses = reqt.getSession(false);
-
-			String reqURI = reqt.getRequestURI();
-			if (reqURI.indexOf("/login.xhtml") >= 0 || (ses != null && ses.getAttribute("usuario") != null)
-					|| reqURI.indexOf("/public/") >= 0 || reqURI.contains("javax.faces.resource"))
-				chain.doFilter(request, response);
-			else
-				resp.sendRedirect(reqt.getContextPath() + "/public/login.xhtml");
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+		if (sess != null) {
+			user = (String) sess.getAttribute("usuarioLogado");
 		}
+
+		if (user == null) {
+			String contextPath = ((HttpServletRequest) request).getContextPath();
+			((HttpServletResponse) response).sendRedirect(contextPath + "/public/login.xhtml");
+		} else {
+			chain.doFilter(request, response);
+		}
+
 	}
 
-	@Override
-	public void destroy() {
+	public void init(FilterConfig arg0) throws ServletException {
+		// TODO Auto-generated method stub
 
 	}
 }

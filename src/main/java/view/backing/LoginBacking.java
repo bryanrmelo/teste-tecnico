@@ -2,28 +2,56 @@ package view.backing;
 
 import java.io.Serializable;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 
-import service.LoginService;
-import utils.SessionUtils;
+import session.SessionContext;
 
 @ManagedBean(name = "login")
 @SessionScoped
 public class LoginBacking implements Serializable {
 
-	private static final long serialVersionUID = 1094801825228386363L;
+	private static final long serialVersionUID = 1L;
 
-	@Inject
-	private LoginService loginService;
-
+	private String email;
+	private String login;
 	private String senha;
-	private String msg;
-	private String usuario;
+
+	public String doLogin() {
+		try {
+			if (validar()) {
+				SessionContext.getInstance().setAttribute("usuario", login);
+				return "/secure/home.xhtml?faces-redirect=true";
+			} else {
+				throw new Exception();
+			}
+
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().validationFailed();
+			e.printStackTrace();
+			return "";
+		}
+
+	}
+
+	private boolean validar() {
+
+		return true;
+	}
+
+	public String doLogout() {
+		SessionContext.getInstance().encerrarSessao();
+		return "/security/form_login.xhtml?faces-redirect=true";
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
 
 	public String getSenha() {
 		return senha;
@@ -33,40 +61,12 @@ public class LoginBacking implements Serializable {
 		this.senha = senha;
 	}
 
-	public String getMsg() {
-		return msg;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
-
-	public String getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
-
-	public String validar() {
-		boolean valid = loginService.validate(usuario, senha);
-		if (valid) {
-			HttpSession session = SessionUtils.getSession();
-			session.setAttribute("usuario", usuario);
-			return "secure/home";
-		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-					"Usuário ou senha incorretos.", "Por favor, confira os dados."));
-			return "login";
-		}
-	}
-
-	// logout event, invalidate session
-	public String logout() {
-		HttpSession session = SessionUtils.getSession();
-		session.invalidate();
-		return "login";
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }
