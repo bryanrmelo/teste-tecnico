@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/basicTemplate.xhtml">
+	<ui:define name="conteudo">
+		<!--  <h:outputText value="#{pessoaBean.pessoas}"/> -->
+		<h:form>
+			<div class="card">
+				<p:dataTable var="pessoa" value="#{pessoaBean.pessoas}">
+					<p:column style="width: 10rem">
+
+					</p:column>
+
+					<p:column headerText="Nome">
+						<h:outputText value="#{pessoa.nome}" />
+					</p:column>
+
+					<p:column headerText="CPF">
+						<h:outputText value="#{pessoa.cpf}" />
+					</p:column>
+
+					<p:column style="width:6rem">
+						<h:commandLink class="btn"
+							action="editarPessoa?faces-redirect=true">
+							<i class="fas fa-pencil-alt"></i>
+						</h:commandLink>
+					</p:column>
+
+				</p:dataTable>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
