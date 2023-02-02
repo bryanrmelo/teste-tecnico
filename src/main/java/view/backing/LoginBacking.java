@@ -2,71 +2,41 @@ package view.backing;
 
 import java.io.Serializable;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-import session.SessionContext;
+import service.LoginService;
 
-@ManagedBean(name = "login")
-@SessionScoped
+@Named("loginBean")
+@ViewScoped
 public class LoginBacking implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String email;
-	private String login;
+	@Inject
+	private LoginService loginService;
+	
+	private String usuario;
 	private String senha;
-
-	public String doLogin() {
-		try {
-			if (validar()) {
-				SessionContext.getInstance().setAttribute("usuario", login);
-				return "/secure/home.xhtml?faces-redirect=true";
-			} else {
-				throw new Exception();
-			}
-
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().validationFailed();
-			e.printStackTrace();
-			return "";
-		}
-
+	
+	public String logar() {
+		return "../secure/home.xhtml?faces-redirect=true";
 	}
-
-	private boolean validar() {
-
-		return true;
+	
+	public String getUsuario() {
+		return usuario;
 	}
-
-	public String doLogout() {
-		SessionContext.getInstance().encerrarSessao();
-		return "/security/form_login.xhtml?faces-redirect=true";
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
 	public String getSenha() {
 		return senha;
 	}
-
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
+	
+	
 
 }

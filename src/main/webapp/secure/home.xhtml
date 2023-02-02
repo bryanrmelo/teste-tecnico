@@ -7,6 +7,30 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/templates/basicTemplate.xhtml">
 	<ui:define name="conteudo">
-		<p class="">teste</p>
+		<h:form>
+			<div class="card">
+				<p:dataTable var="contato" value="#{homeBean.contatos}" lazy="false">
+					<p:column style="width: 10rem">
+
+					</p:column>
+
+					<p:column headerText="Nome">
+						<h:outputText value="#{contato.tag}" />
+					</p:column>
+
+					<p:column headerText="CPF">
+						<h:outputText value="#{contato.cpf}" />
+					</p:column>
+
+					<p:column style="width:6rem">
+						<h:commandLink class="btn"
+							action="editarPessoa?faces-redirect=true">
+							<i class="fas fa-pencil-alt"></i>
+						</h:commandLink>
+					</p:column>
+
+				</p:dataTable>
+			</div>
+		</h:form>
 	</ui:define>
 </ui:composition>

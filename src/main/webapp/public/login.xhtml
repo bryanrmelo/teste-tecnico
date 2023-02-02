@@ -11,8 +11,6 @@
 </h:head>
 <h:body>
 
-	<p:growl autoUpdate="true" />
-
 	<div id="container">
 
 		<div id="login_box">
@@ -29,10 +27,10 @@
 				<p:panelGrid styleClass="semBorda" columns="2">
 
 					<h:outputText value="Login: " />
-					<p:inputText value="#{login.login}" size="37" />
+					<p:inputText value="#{loginBean.usuario}" size="37" />
 
 					<h:outputText value="Senha: " />
-					<p:password value="#{login.senha}" size="37" />
+					<p:password value="#{loginBean.senha}" size="37" />
 
 				</p:panelGrid>
 
@@ -40,7 +38,7 @@
 				<br />
 				<p:panelGrid columns="1" styleClass="semBorda">
 					<p:commandButton icon="ui-icon-unlocked" value="Entrar"
-						action="#{login.doLogin}" />
+						action="#{loginBean.logar()}" />
 				</p:panelGrid>
 
 			</h:form>
